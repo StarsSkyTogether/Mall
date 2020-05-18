@@ -5,6 +5,8 @@ import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +27,31 @@ import com.wch.common.utils.R;
  * @email wchaohui@foxmail.com
  * @date 2020-04-27 19:28:07
  */
+@RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
     @Autowired
     private CouponService couponService;
 
+    @Value("${coupon.age}")
+    private String age;
+
+    @Value("${coupon.name}")
+    private String name;
+
+    @RequestMapping("/testNacosConfig")
+    public R testNacosConfig(){
+        return R.ok().put("age", age).put("name",name);
+    }
+
+
+    @RequestMapping("/member/list")
+    public R membercoupons(){
+        CouponEntity couponEntity = new CouponEntity();
+        couponEntity.setCouponName("满100减10");
+        return R.ok().put("coupons",Arrays.asList(couponEntity));
+    }
     /**
      * 列表
      */

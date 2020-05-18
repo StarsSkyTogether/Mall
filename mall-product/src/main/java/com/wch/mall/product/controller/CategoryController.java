@@ -1,6 +1,7 @@
 package com.wch.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,6 +31,16 @@ import com.wch.common.utils.R;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+    @RequestMapping("/list/tree")
+    public R list(){
+        List<CategoryEntity> entities = categoryService.listWithTree();
+
+        return R.ok().put("data",entities);
+    }
+
+
+
 
     /**
      * 列表
@@ -64,6 +75,13 @@ public class CategoryController {
 
         return R.ok();
     }
+    @RequestMapping("/update/sort")
+    //@RequiresPermissions("product:category:update")
+    public R updateSort(@RequestBody CategoryEntity[] categorys){
+        categoryService.updateBatchById(Arrays.asList(categorys));
+
+        return R.ok();
+    }
 
     /**
      * 修改
@@ -82,7 +100,10 @@ public class CategoryController {
     @RequestMapping("/delete")
    // @RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
+
+
+        categoryService.removeMenuByIds(Arrays.asList(catIds));
+		//categoryService.removeByIds(Arrays.asList(catIds));
 
         return R.ok();
     }
