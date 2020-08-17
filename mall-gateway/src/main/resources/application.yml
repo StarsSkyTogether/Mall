@@ -10,6 +10,12 @@ spring:
           uri: https://www.qq.com
           predicates:
             - Query=url,qq
+        - id: third-party-route
+          uri: lb://mall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty(?<segment>/?.*), /$\{segment}
         - id: product_route
           uri: lb://mall-product
           predicates:
