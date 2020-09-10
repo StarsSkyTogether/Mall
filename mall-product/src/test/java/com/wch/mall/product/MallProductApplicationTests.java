@@ -42,13 +42,15 @@ class MallProductApplicationTests {
 
     @Test
     public void listAll(){
-        List<BrandEntity> brandEntities = brandService.queryAll();
+        List<BrandEntity> brandEntities = brandService.queryAll("");
         System.out.println(brandEntities);
         System.out.println(brandEntities.size());
     }
-
+    @Autowired
+    
     @Test
     public void batchBrand(){
+
         for(int i=0; i<5000; i++){
             BrandEntity brandEntity = new BrandEntity();
             brandEntity.setDescript("华为"+i);
